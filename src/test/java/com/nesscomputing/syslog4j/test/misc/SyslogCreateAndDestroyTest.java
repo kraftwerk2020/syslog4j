@@ -39,7 +39,7 @@ public class SyslogCreateAndDestroyTest extends TestCase {
         }
 
         @Override
-        public String createSyslogHeader(SyslogFacility facility, SyslogLevel level, String localName, String localProcessId, boolean sendLocalTimestamp, boolean sendLocalName) {
+        public String createSyslogHeader(SyslogFacility facility, SyslogLevel level, String localName, String ident, String localProcessId, boolean sendLocalTimestamp, boolean sendLocalName) {
             return null;
         }
     }
