@@ -116,7 +116,7 @@ public abstract class AbstractSyslogMessageProcessor implements SyslogMessagePro
     }
 
     @Override
-    public String createSyslogHeader(SyslogFacility facility, SyslogLevel level, String localName, String localProcessId, boolean sendLocalTimestamp, boolean sendLocalName) {
+    public String createSyslogHeader(SyslogFacility facility, SyslogLevel level, String localName, String ident, String localProcessId, boolean sendLocalTimestamp, boolean sendLocalName) {
         StringBuffer buffer = new StringBuffer();
 
         appendPriority(buffer,facility,level);
@@ -128,6 +128,10 @@ public abstract class AbstractSyslogMessageProcessor implements SyslogMessagePro
         if (sendLocalName) {
             appendLocalName(buffer,localName);
         }
+		  
+		  if ( null != ident && ! "".equals( ident) ) {
+			  buffer.append( ident );
+		  }
 
         return buffer.toString();
     }

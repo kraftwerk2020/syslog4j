@@ -104,7 +104,7 @@ public class StructuredSyslogMessageProcessor extends AbstractSyslogMessageProce
     }
 
     @Override
-    public String createSyslogHeader(final SyslogFacility facility, final SyslogLevel level, String localName, String localProcessId, final boolean sendLocalTimestamp, final boolean sendLocalName) {
+    public String createSyslogHeader(final SyslogFacility facility, final SyslogLevel level, String localName, String ident, String localProcessId, final boolean sendLocalTimestamp, final boolean sendLocalName) {
         final StringBuffer buffer = new StringBuffer();
 
         appendPriority(buffer,facility,level);

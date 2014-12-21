@@ -233,15 +233,9 @@ public abstract class AbstractSyslog implements SyslogIF {
     public void log(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String localProcId, String message) {
         String _message = null;
 
-        if (this.syslogConfig.isIncludeIdentInMessageModifier()) {
-            _message = prefixMessage(message,IDENT_SUFFIX_DEFAULT);
-            _message = modifyMessage(level,_message);
 
-        } else {
-            _message = modifyMessage(level,message);
-            _message = prefixMessage(_message,IDENT_SUFFIX_DEFAULT);
-        }
-
+        _message = modifyMessage(level,message);
+		  
         try {
             write(messageProcessor, level, localProcId, _message);
 
@@ -260,7 +254,11 @@ public abstract class AbstractSyslog implements SyslogIF {
     }
 
     protected void write(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String localProcId, String message) throws SyslogRuntimeException {
-        String header = messageProcessor.createSyslogHeader(this.syslogConfig.getFacility(),level,this.syslogConfig.getLocalName(), localProcId, this.syslogConfig.isSendLocalTimestamp(),this.syslogConfig.isSendLocalName());
+		 
+		  String ident = this.syslogConfig.getIdent();
+		  ident = (StringUtils.isBlank(ident) ? null : (ident + IDENT_SUFFIX_DEFAULT));
+		  
+        String header = messageProcessor.createSyslogHeader(this.syslogConfig.getFacility(),level,this.syslogConfig.getLocalName(), ident, localProcId, this.syslogConfig.isSendLocalTimestamp(),this.syslogConfig.isSendLocalName());
 
         byte[] h = SyslogUtility.getBytes(this.syslogConfig,header);
         byte[] m = SyslogUtility.getBytes(this.syslogConfig,message);
